@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.TimerTask;
@@ -44,8 +45,9 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 		r = new Random();
 		
 		rooms = new ArrayList<Room>();
-		Room kitchen = new Room(this,"src/Table_Background.png","src/Table_Icon.png");
-		Room livingRoom = new Room(this,"src/Living Room_Background.png","src/Living Room_Icon.png");
+		String[] temp = new String[0];
+		Room kitchen = new Room(this,"src/Table_Background.png","src/Table_Icon.png",new File("src/KitchenThings"));
+		Room livingRoom = new Room(this,"src/Living Room_Background.png","src/Living Room_Icon.png",new File("src/LivingRoomThings"));
 		rooms.add(kitchen);
 		rooms.add(livingRoom);
 		currentRoom = rooms.get(0);
@@ -77,7 +79,9 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 	}
 	
 	public void mouseClicked(MouseEvent mouse){
-		roomIconClicked(new Point(mouse.getX(),mouse.getY()));
+		Point mousePos = new Point(mouse.getX(),mouse.getY());
+		roomIconClicked(mousePos);
+		currentRoom.thingClicked(mousePos);
     }
 	public void mouseEntered(MouseEvent mouse){ 
 	}   
@@ -91,6 +95,7 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
     }
     public void mouseMoved(MouseEvent mouse){
     }
+    
     
     private void roomIconClicked(Point mousePos){
     	for(int i = 0;i<rooms.size();i++){

@@ -1,8 +1,7 @@
+import java.awt.Graphics;
 import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
+import java.awt.Point;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 
@@ -10,17 +9,26 @@ public class Thing {
 	JPanel jPanel;
 	Image img;
 	
-	public <E extends JPanel> Thing(E jPanel, String imgPath){
+	public <E extends JPanel> Thing(E jPanel, Image img){
 		this.jPanel = jPanel;
-		
-		try {
-		    img = ImageIO.read(new File(imgPath));
-		    System.out.println("Thing image loaded successfully");
-		} catch (IOException e) {
-			System.out.println("Failed to load thing image");
-		}
+		this.img = img;
 		
 	}
 	
+	public void draw(Graphics g){
+		g.drawImage(img, 0, 0,jPanel);
+	}
+	
+	public void clicked(Point mousePos){
+		if(
+				mousePos.x>0 &&
+				mousePos.x<img.getWidth(jPanel) &&
+				mousePos.y>0 &&
+				mousePos.y<img.getHeight(jPanel)
+				){
+			System.out.println("Object clicked");
+			
+		}
+	}
 
 }
