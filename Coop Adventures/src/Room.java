@@ -1,12 +1,15 @@
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import java.io.FileFilter;
 
 
 public class Room{
@@ -16,7 +19,9 @@ public class Room{
 	JPanel jPanel;
 	ArrayList<Thing> things;
 	
+	
 	public <E extends JPanel> Room(E j,String bgImgPath,String iconImgPath,File thingImgDir){
+		
 		this.jPanel= j;
 		try {
 		    bg = ImageIO.read(new File(bgImgPath));
@@ -35,16 +40,31 @@ public class Room{
 		things = new ArrayList<Thing>();
 		//Import images of things
 		if (thingImgDir.isDirectory()) { // make sure it's a directory
-            for (final File f : thingImgDir.listFiles()) {
-                Image img = null;
+			FileFilter filter = new ThingLoadFilter("normal");
+			File[] filesToCheck = thingImgDir.listFiles(filter);
+            for (final File f : filesToCheck) {
+                BufferedImage img = null;
                 try {
+                	String name = f.getName().substring(0, f.getName().length()-4); //Remove the file type (".png")
+                	System.out.println(f.getName());
+                	System.out.println(f.getName().substring(0, f.getName().length()-4));
                     img = ImageIO.read(f);
-                    things.add(new Thing(jPanel,img));
+                    things.add(new Thing(name,jPanel,img));
                 } catch (final IOException e) {
                     System.out.println("Failed to load images of things in a room");
                 }
             }
         }
+		//Add animations
+		for(Thing thing:things){
+			try{
+				String path = thingImgDir.getPath()+"/"+thing.getName()+"2.png";
+				BufferedImage animation = ImageIO.read(new File(path));
+				thing.addAnimation(animation);
+			}catch(Exception e){
+				
+			}
+		}
 		
 		
 	}
