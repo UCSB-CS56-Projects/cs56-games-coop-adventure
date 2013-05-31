@@ -1,6 +1,7 @@
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
@@ -64,6 +65,16 @@ public class Room{
 			}catch(Exception e){
 				
 			}
+			
+			try{
+				String path = thingImgDir.getPath()+"/"+thing.getName()+"2.gif";
+				Image animation = Toolkit.getDefaultToolkit().createImage(path);
+				thing.addAnimation(animation);
+			}catch(Exception e){
+				
+			}
+				
+			
 		}
 		
 		
