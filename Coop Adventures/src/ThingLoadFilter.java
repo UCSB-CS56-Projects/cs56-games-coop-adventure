@@ -5,11 +5,10 @@ import java.io.FileFilter;
 
 public class ThingLoadFilter implements FileFilter{
 	String type;
-	String thingName;
+
 	
 	public ThingLoadFilter(String type){
 		this.type = type;
-		this.thingName = "";
 	}
 	
 	

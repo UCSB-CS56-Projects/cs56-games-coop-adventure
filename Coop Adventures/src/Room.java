@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
 import java.io.FileFilter;
 
@@ -56,7 +59,7 @@ public class Room{
                 }
             }
         }
-		//Add animations
+		//Add animations and sounds
 		for(Thing thing:things){
 			try{
 				String path = thingImgDir.getPath()+"/"+thing.getName()+"2.png";
@@ -73,11 +76,25 @@ public class Room{
 			}catch(Exception e){
 				
 			}
-				
+			
+			String[] musicExtensions = {".wav",".mp3"};
+			for(String me:musicExtensions){
+				String path = thingImgDir.getPath()+"/"+thing.getName()+me;
+				try{
+					File audioFile = new File(path);
+					if(audioFile.exists()){
+						System.out.println("Added audiofile "+path);
+						thing.addAudio(audioFile);
+					}
+
+				}catch(Exception e){
+					System.out.println("Couldn't load sound"+path);
+				}
+			}
 			
 		}
 		
-		
+			
 	}
 	
 	public Point getIconSize(){

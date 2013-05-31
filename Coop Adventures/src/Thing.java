@@ -2,7 +2,11 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
 
 
@@ -13,6 +17,9 @@ public class Thing {
 	private Image gifAnimation;
 	private boolean animate;
 	private int animationDuration,animationCountdown;
+	private File audioFile;
+	
+	Clip audioClip;
 	
 	public <E extends JPanel> Thing(String name, E jPanel, BufferedImage img){
 		this.name = name;
@@ -23,10 +30,15 @@ public class Thing {
 		this.animation = null;	//animations are added after the creation of the Thing
 		this.animationDuration = 100;	//Standard duration
 		this.animationCountdown = 0;
+		
 	}
 	
 	public String getName(){
 		return name;
+	}
+	
+	public void addAudio(File audioFile){
+		this.audioFile = audioFile;
 	}
 	
 	public void addAnimation(BufferedImage animation){
@@ -69,8 +81,40 @@ public class Thing {
 				if(gifAnimation!=null){
 					gifAnimation.flush();
 				}
+				
+				
+				if(audioFile != null){
+					AudioInputStream audio = null;
+					try{
+						audio = AudioSystem.getAudioInputStream(audioFile);
+					}catch(Exception e){
+						System.out.println("Audiosystem load fail");
+					}
+					try{
+						this.audioClip = AudioSystem.getClip();
+					}catch(Exception e){
+						System.out.println("AudioSystem.getClip() failed");
+					}
+					if(audio!=null && audioClip != null){
+						try{
+							audioClip.open(audio);
+							audioClip.start();
+						}catch(Exception e){
+							System.out.println("Playing of sound failed.");
+						}
+					}
+				}
 			}
 		}
+	}
+	
+	public void update(){
+		
+		if(audioClip!=null&&!audioClip.isRunning()){
+			audioClip.close();
+		}
+		
+		
 	}
 
 }
