@@ -3,7 +3,10 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,7 +55,8 @@ public class Room{
 		}
 		
 		things = new ArrayList<Thing>();
-		//Import images of things
+		
+		//Import images of things and create things based on them
 		if (thingImgDir.isDirectory()) { // make sure it's a directory
 			FileFilter filter = new ThingLoadFilter("normal");
 			File[] filesToCheck = thingImgDir.listFiles(filter);
@@ -99,7 +103,38 @@ public class Room{
 					System.out.println("Couldn't load sound"+path);
 				}
 			}
+		}
+		
+		//Arrange according to any order specifications
+		
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(thingImgDir.getPath()+"/order.txt"));
+		} catch (FileNotFoundException e) {
+			//e.printStackTrace();
+		}
+		String line = null;
+		
+		try {
+			if(reader!=null){
+				ArrayList<Thing> temp = new ArrayList<Thing>();
+				while ((line = reader.readLine()) != null) {
+					for(Thing thing:things){
+						if(thing.getName().equals(line)){
+							temp.add(thing);
+						}
+					}
+				}
+				
+				for(Thing t: temp){
+					things.remove(t);
+					things.add(0,t);
+				}
+				
+			}
 			
+		} catch (IOException e) {
+			//e.printStackTrace();
 		}
 		
 			
@@ -128,7 +163,9 @@ public class Room{
 	 */
 	public void thingClicked(Point mousePos){
 		for(Thing t: things){
-			t.checkIfClicked(mousePos);
+			if(t.checkIfClicked(mousePos)){
+				return;
+			}
 		}
 	}
 	
@@ -146,8 +183,8 @@ public class Room{
 	 * @param g
 	 */
 	private void drawThings(Graphics g){
-		for(Thing t: things){
-			t.draw(g);
+		for(int i = things.size()-1;i>=0;i--){
+			things.get(i).draw(g);
 		}
 	}
 	

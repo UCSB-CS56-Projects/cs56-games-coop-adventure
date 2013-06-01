@@ -102,8 +102,9 @@ public class Thing {
 	/**
 	 * Checks if the object is clicked, and in that case, marks the Thing as clicked. The clicking consequences are handled in clicked() for synchronization purposes.
 	 * @param mousePos Mouse position at time of click
+	 * @return returns true if Thing is clicked, false otherwise.
 	 */
-	public void checkIfClicked(Point mousePos){
+	public boolean checkIfClicked(Point mousePos){
 		int transparentColorID = 16777215;
 		if(
 				mousePos.x>0 &&
@@ -115,7 +116,9 @@ public class Thing {
 			System.out.println("Object clicked with color: " + img.getRGB(mousePos.x, mousePos.y));
 			this.clicked = true;
 			this.mousePos = mousePos;
+			return true;
 		}
+		return false;
 	}
 
 	/**

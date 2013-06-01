@@ -2,7 +2,13 @@ import java.io.File;
 
 import java.io.FileFilter;
 
-
+/**
+ * Specialized filter for the graphics of the "idle"-images of things, which are used to initialize them.
+ * Images with a "2" at the end are animations and are thus filtered. 
+ * Currently, only .png pass the filter (easily expanded).
+ * @author Gunnar Weibull
+ *
+ */
 public class ThingLoadFilter implements FileFilter{
 	String type;
 
