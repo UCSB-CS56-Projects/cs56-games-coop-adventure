@@ -76,7 +76,7 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 	}
 	
 	private Point getRoomIconPos(int iconNo){
-		return new Point(screenWidth/rooms.size()*iconNo,screenHeight-100);
+		return new Point((int)(screenWidth/rooms.size()*(iconNo+0.5)),screenHeight-100);
 	}
 	
 	public void mouseClicked(MouseEvent mouse){

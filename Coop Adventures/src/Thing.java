@@ -144,27 +144,29 @@ public class Thing {
 
 
 			if(audioFile != null){
-				AudioInputStream audio = null;
-				try{
-					audio = AudioSystem.getAudioInputStream(audioFile);
-				}catch(Exception e){
-					System.out.println("Audiosystem load fail");
-				}
-				try{
-					this.audioClip = AudioSystem.getClip();
-				}catch(Exception e){
-					System.out.println("AudioSystem.getClip() failed");
-				}
-				if(audio!=null && audioClip != null){
+				if(audioClip==null||(audioClip!=null&&!audioClip.isActive())){
+					AudioInputStream audio = null;
 					try{
-						audioClip.open(audio);
-						audioClip.start();
-						audioActivation = true;
+						audio = AudioSystem.getAudioInputStream(audioFile);
 					}catch(Exception e){
-						e.printStackTrace();
-						System.out.println("Playing of sound failed.");
+						System.out.println("Audiosystem load fail");
 					}
+					try{
+						this.audioClip = AudioSystem.getClip();
+					}catch(Exception e){
+						System.out.println("AudioSystem.getClip() failed");
+					}
+					if(audio!=null && audioClip != null){
+						try{
+							audioClip.open(audio);
+							audioClip.start();
+							audioActivation = true;
+						}catch(Exception e){
+							e.printStackTrace();
+							System.out.println("Playing of sound failed.");
+						}
 
+					}
 				}
 			}
 
