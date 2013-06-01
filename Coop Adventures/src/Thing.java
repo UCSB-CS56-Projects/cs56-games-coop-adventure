@@ -25,6 +25,7 @@ public class Thing {
 	private Clip audioClip;
 	private boolean clicked;
 	private Point mousePos;
+	boolean audioActivation;
 
 	/**
 	 * 
@@ -45,6 +46,8 @@ public class Thing {
 		this.animation = null;	//animations are added after the creation of the Thing
 		this.animationDuration = 100;	//Standard duration
 		this.animationCountdown = 0;
+		
+		audioActivation = false;
 
 
 	}
@@ -90,7 +93,11 @@ public class Thing {
 			if(animation != null){
 				g.drawImage(animation, 0, 0,jPanel);
 			}else if(gifAnimation!=null){
+				System.out.println("Huh?");
 				g.drawImage(gifAnimation, 0, 0,jPanel);
+			}else{
+				
+				g.drawImage(img, 0, 0,jPanel);
 			}
 			animationCountdown--;
 			if(animationCountdown<=0){
@@ -152,6 +159,7 @@ public class Thing {
 					try{
 						audioClip.open(audio);
 						audioClip.start();
+						audioActivation = true;
 					}catch(Exception e){
 						e.printStackTrace();
 						System.out.println("Playing of sound failed.");
@@ -170,10 +178,15 @@ public class Thing {
 	 * Runs clicked() if click is marked, otherwise checks and closes the audio file
 	 */
 	public void update(){
-
+		//Sometimes there seems to be a slight lag between audio .start() and .isActive()
+		//The audioActivation-boolean takes care of that
+		if(audioActivation && audioClip.isActive()){  
+			audioActivation = false;
+		}
+		
 		if(clicked){
 			clicked();
-		}else if(audioClip!=null&&!audioClip.isActive()){
+		}else if(!audioActivation&&audioClip!=null&&!audioClip.isActive()){	
 			//Close audioclip if it isn't playing
 			this.audioClip.close();
 		}

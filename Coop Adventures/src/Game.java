@@ -81,8 +81,9 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 	
 	public void mouseClicked(MouseEvent mouse){
 		Point mousePos = new Point(mouse.getX(),mouse.getY());
-		roomIconClicked(mousePos);
-		currentRoom.thingClicked(mousePos);
+		if(!roomIconClicked(mousePos)){
+			currentRoom.thingClicked(mousePos);
+		}
     }
 	public void mouseEntered(MouseEvent mouse){ 
 	}   
@@ -98,7 +99,7 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
     }
     
     
-    private void roomIconClicked(Point mousePos){
+    private boolean roomIconClicked(Point mousePos){
     	for(int i = 0;i<rooms.size();i++){
     		if(
     				mousePos.x > getRoomIconPos(i).x &&
@@ -107,8 +108,10 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
     				mousePos.y < getRoomIconPos(i).y+rooms.get(i).getIconSize().y
     				){
     			currentRoom = rooms.get(i);
+    			return true;
     		}
     	}
+    	return false;
     }
 	
 	public static void main(String args[]){
