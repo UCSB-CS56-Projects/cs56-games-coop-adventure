@@ -18,18 +18,25 @@ public class Thing {
 	private boolean animate;
 	private int animationDuration,animationCountdown;
 	private File audioFile;
-	
-	Clip audioClip;
+	private Clip audioClip;
+	private boolean clicked;
+	private Point mousePos;
+
 	
 	public <E extends JPanel> Thing(String name, E jPanel, BufferedImage img){
 		this.name = name;
+		
 		this.jPanel = jPanel;
 		this.img = img;
 		this.animate = false;
 		
+		this.clicked = false;
+		this.mousePos = null;
+		
 		this.animation = null;	//animations are added after the creation of the Thing
 		this.animationDuration = 100;	//Standard duration
 		this.animationCountdown = 0;
+		
 		
 	}
 	
@@ -65,7 +72,13 @@ public class Thing {
 		}
 	}
 	
-	public void clicked(Point mousePos){
+	public void markAsClicked(Point mousePos){
+		this.clicked = true;
+		this.mousePos = mousePos;
+	}
+	
+	private void clicked(Point mousePos){
+		
 		if(
 				mousePos.x>0 &&
 				mousePos.x<img.getWidth(jPanel) &&
@@ -83,6 +96,7 @@ public class Thing {
 				}
 				
 				
+
 				if(audioFile != null){
 					AudioInputStream audio = null;
 					try{
@@ -100,19 +114,30 @@ public class Thing {
 							audioClip.open(audio);
 							audioClip.start();
 						}catch(Exception e){
+							e.printStackTrace();
 							System.out.println("Playing of sound failed.");
 						}
+
 					}
 				}
+
 			}
 		}
+		
+		clicked = false;
 	}
 	
 	public void update(){
 		
-		if(audioClip!=null&&!audioClip.isRunning()){
-			audioClip.close();
+		if(clicked){
+			clicked(this.mousePos);
+		}else if(audioClip!=null&&!audioClip.isActive()){
+			//Close audioclip if it isn't playing
+			this.audioClip.close();
 		}
+		
+
+		
 		
 		
 	}

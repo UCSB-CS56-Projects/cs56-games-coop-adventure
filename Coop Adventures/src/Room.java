@@ -50,8 +50,6 @@ public class Room{
                 BufferedImage img = null;
                 try {
                 	String name = f.getName().substring(0, f.getName().length()-4); //Remove the file type (".png")
-                	System.out.println(f.getName());
-                	System.out.println(f.getName().substring(0, f.getName().length()-4));
                     img = ImageIO.read(f);
                     things.add(new Thing(name,jPanel,img));
                 } catch (final IOException e) {
@@ -97,13 +95,19 @@ public class Room{
 			
 	}
 	
+	public void updateThings(){
+		for(Thing t: things){
+			t.update();
+		}
+	}
+	
 	public Point getIconSize(){
 		return new Point(icon.getWidth(jPanel),icon.getHeight(jPanel));
 	}
 	
 	public void thingClicked(Point mousePos){
 		for(Thing t: things){
-			t.clicked(mousePos);
+			t.markAsClicked(mousePos);
 		}
 	}
 	

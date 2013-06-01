@@ -48,8 +48,9 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 		String[] temp = new String[0];
 		Room kitchen = new Room(this,"src/Table_Background.png","src/Table_Icon.png",new File("src/KitchenThings"));
 		Room livingRoom = new Room(this,"src/Living Room_Background.png","src/Living Room_Icon.png",new File("src/LivingRoomThings"));
-		rooms.add(kitchen);
 		rooms.add(livingRoom);
+		rooms.add(kitchen);
+		
 		currentRoom = rooms.get(0);
 		
 	}
@@ -59,7 +60,7 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 	class gameTimerTask extends TimerTask{ 
 		
 		public void run(){
-			
+			currentRoom.updateThings();
 			//Repaint
 			frame.repaint();
 		}
