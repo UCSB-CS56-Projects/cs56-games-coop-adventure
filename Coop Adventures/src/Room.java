@@ -15,7 +15,11 @@ import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
 import java.io.FileFilter;
 
-
+/**
+ * Represents a room in the game.
+ * @author Gunnar Weibull
+ *
+ */
 public class Room{
 	
 	Image bg;
@@ -23,7 +27,13 @@ public class Room{
 	JPanel jPanel;
 	ArrayList<Thing> things;
 	
-	
+	/**
+	 * 
+	 * @param j Objects extending JPanel, used for ImageListener
+	 * @param bgImgPath Path to background image
+	 * @param iconImgPath Path to icon image
+	 * @param thingImgDir Path to images for Things in the room
+	 */
 	public <E extends JPanel> Room(E j,String bgImgPath,String iconImgPath,File thingImgDir){
 		
 		this.jPanel= j;
@@ -95,33 +105,57 @@ public class Room{
 			
 	}
 	
+	/**
+	 * Updates all things in the room.
+	 */
 	public void updateThings(){
 		for(Thing t: things){
 			t.update();
 		}
 	}
 	
+	/**
+	 * 
+	 * @return Size of room icon
+	 */
 	public Point getIconSize(){
 		return new Point(icon.getWidth(jPanel),icon.getHeight(jPanel));
 	}
 	
+	/**
+	 * Checks if any of the Things in the room are clicked
+	 * @param mousePos
+	 */
 	public void thingClicked(Point mousePos){
 		for(Thing t: things){
-			t.markAsClicked(mousePos);
+			t.checkIfClicked(mousePos);
 		}
 	}
 	
+	/**
+	 * Draws or calls necessary functions to draw everything in the room (not the icon).
+	 * @param g
+	 */
 	public void draw(Graphics g){
 		g.drawImage(bg,0,0,jPanel);
 		drawThings(g);
 	}
 	
+	/**
+	 * Draws the Things in the room
+	 * @param g
+	 */
 	private void drawThings(Graphics g){
 		for(Thing t: things){
 			t.draw(g);
 		}
 	}
 	
+	/**
+	 * Draws the icon of the room at the specified coordinates
+	 * @param g
+	 * @param coord
+	 */
 	public void drawIcon(Graphics g,Point coord){
 		g.drawImage(icon, coord.x, coord.y,jPanel);
 	}
