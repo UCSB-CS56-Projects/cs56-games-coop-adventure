@@ -44,7 +44,7 @@ public class Thing {
 		this.mousePos = null;
 
 		this.animation = null;	//animations are added after the creation of the Thing
-		this.animationDuration = 100;	//Standard duration
+		this.animationDuration = 150;	//Standard duration
 		this.animationCountdown = 0;
 		
 		audioActivation = false;
@@ -132,7 +132,7 @@ public class Thing {
 	 * Performs actions after a clicking event marked by checkIfClicked()
 	 * This function is called by update() (as opposed to checkIfClicked()) to ensure synchronization.
 	 */
-	private void clicked(){
+	protected void clicked(){
 
 		if(clicked){
 			animate = true;

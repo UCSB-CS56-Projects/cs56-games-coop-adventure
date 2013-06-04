@@ -25,10 +25,11 @@ import java.io.FileFilter;
  */
 public class Room{
 	
-	Image bg;
-	Image icon;
-	JPanel jPanel;
-	ArrayList<Thing> things;
+	private Image bg;
+	private Image icon;
+	private JPanel jPanel;
+	private ArrayList<Thing> things;
+	private Game game;
 	
 	/**
 	 * 
@@ -37,8 +38,8 @@ public class Room{
 	 * @param iconImgPath Path to icon image
 	 * @param thingImgDir Path to images for Things in the room
 	 */
-	public <E extends JPanel> Room(E j,String bgImgPath,String iconImgPath,File thingImgDir){
-		
+	public <E extends JPanel> Room(E j,String bgImgPath,String iconImgPath,File thingImgDir,Game game){
+		this.game = game;
 		this.jPanel= j;
 		try {
 		    bg = ImageIO.read(new File(bgImgPath));
@@ -65,7 +66,19 @@ public class Room{
                 try {
                 	String name = f.getName().substring(0, f.getName().length()-4); //Remove the file type (".png")
                     img = ImageIO.read(f);
-                    things.add(new Thing(name,jPanel,img));
+                    if(name.substring(name.length()-3).equals("NPC")){
+                    	File conversation = new File(thingImgDir+"/"+name+".txt");
+                    	if(conversation.exists()){
+                    		System.out.println(name +" conversation existed");
+                    	}else{
+                    		System.out.println(name+" conversation did not exist");
+                    	}
+                    		
+                    	things.add(new NPC(name,jPanel,img,game,conversation));
+                    }else{
+                    	things.add(new Thing(name,jPanel,img));
+                    }
+                    
                 } catch (final IOException e) {
                     System.out.println("Failed to load images of things in a room");
                 }
