@@ -154,7 +154,7 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 					for(DialoguePart dp:conversationDialogue){
 						if(jl.getText().equals(dp.getQuestion())){
 							flushPanel(conversationWindow,"Answer: ");
-							JLabel answer = new JLabel(dp.getAnswer());
+							JLabel answer = new JLabel("<html><p style=\"width:600px\">"+dp.getAnswer()+"</p></html>");
 							answer.setBackground(new Color(50+r.nextInt(50),200+r.nextInt(50),100+r.nextInt(50)));
 							answer.setOpaque(true);
 							answer.setFont(new Font("Serif", Font.PLAIN, fontSize));
