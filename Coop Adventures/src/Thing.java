@@ -93,7 +93,6 @@ public class Thing {
 			if(animation != null){
 				g.drawImage(animation, 0, 0,jPanel);
 			}else if(gifAnimation!=null){
-				System.out.println("Huh?");
 				g.drawImage(gifAnimation, 0, 0,jPanel);
 			}else{
 				

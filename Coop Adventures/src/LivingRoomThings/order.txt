@@ -1,1 +1,4 @@
+Living room_catman_NPC
+Living room_person2_NPC
 Living room_Item_Videogame
+Living room_Item_Door

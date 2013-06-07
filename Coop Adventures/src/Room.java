@@ -48,6 +48,8 @@ public class Room{
 			System.out.println("Failed to load background image");
 		}
 		
+		
+		
 		try{
 			icon = ImageIO.read(new File(iconImgPath));
 			System.out.println("Icon image loaded successfully");
