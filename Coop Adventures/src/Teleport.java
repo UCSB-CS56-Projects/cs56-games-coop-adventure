@@ -17,7 +17,6 @@ public class Teleport extends Thing{
 	//Override clicked
 	protected void clicked(){
 		super.clicked();
-		System.out.println("Hiho");
 		game.changeRoom(room);
 		
 	}
