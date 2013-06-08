@@ -61,10 +61,13 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 		
 		rooms = new ArrayList<Room>();
 		String[] temp = new String[0];
-		Room kitchen = new Room(this,"src/Table_Background.png","src/Table_Icon.png",new File("src/KitchenThings"),this);
-		Room livingRoom = new Room(this,"src/Living Room_Background.png","src/Living Room_Icon.png",new File("src/LivingRoomThings"),this);
+		Room dashain = new Room("Dashain",this,"src/Dashain_Background.png","src/Dashain_Icon.png",new File("src/DashainThings"),this);
+		Room kitchen = new Room("Kitchen",this,"src/Table_Background.png","src/Table_Icon.png",new File("src/KitchenThings"),this);
+		Room livingRoom = new Room("LivingRoom",this,"src/Living Room_Background.png","src/Living Room_Icon.png",new File("src/LivingRoomThings"),this);
+		rooms.add(dashain);
 		rooms.add(kitchen);
 		rooms.add(livingRoom);
+		
 		
 		
 		currentRoom = rooms.get(0);
@@ -114,7 +117,7 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 		returnPanel.setOpaque(true);
 		returnPanel.setBackground(new Color(127,255,212));
 		//returnPanel.setVisible(false);
-		returnPanel.add(new JLabel("Click on a person to ask questions!"));
+		returnPanel.add(new JLabel("The Santa Barbara Student Housing Coops Proudly Presents"));
 		returnPanel.setFont(new Font("Serif", Font.PLAIN, fontSize));
 		return returnPanel;
 	}
@@ -133,7 +136,7 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 	
 	public void paintComponent(Graphics g){
 		currentRoom.draw(g);
-		
+	
 		for(int i = 0; i<rooms.size();i++){
 			if(!(rooms.get(i).equals(currentRoom))){
 				rooms.get(i).drawIcon(g,getRoomIconPos(i));
@@ -142,7 +145,7 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 	}
 	
 	private Point getRoomIconPos(int iconNo){
-		return new Point((int)(screenWidth/rooms.size()*(iconNo+0.5)),screenHeight-100);
+		return new Point((int)(screenWidth/rooms.size()*(iconNo+0.5)),screenHeight-75);
 	}
 	
 	public void mouseClicked(MouseEvent mouse){
@@ -154,7 +157,7 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 					for(DialoguePart dp:conversationDialogue){
 						if(jl.getText().equals(dp.getQuestion())){
 							flushPanel(conversationWindow,"Answer: ");
-							JLabel answer = new JLabel(dp.getAnswer());
+							JLabel answer = new JLabel("<html><p style=\"width:600px\">"+dp.getAnswer()+"</p></html>");
 							answer.setBackground(new Color(50+r.nextInt(50),200+r.nextInt(50),100+r.nextInt(50)));
 							answer.setOpaque(true);
 							answer.setFont(new Font("Serif", Font.PLAIN, fontSize));
@@ -188,6 +191,8 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 	private void flushPanel(JPanel jp,String message){
 		jp.removeAll();
 		jp.add(new JLabel(message));
+		jp.revalidate();
+		jp.repaint();
 	}
 	public void mouseEntered(MouseEvent mouse){ 
 	}   
@@ -211,11 +216,21 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
     				mousePos.y > getRoomIconPos(i).y &&
     				mousePos.y < getRoomIconPos(i).y+rooms.get(i).getIconSize().y
     				){
+    			flushPanel(conversationWindow,"Click on a person to ask questions!");
     			currentRoom = rooms.get(i);
     			return true;
     		}
     	}
     	return false;
+    }
+    
+    public void changeRoom(String roomName){
+    	for(Room room:rooms){
+    		if(room.getName().equals(roomName)){
+    			flushPanel(conversationWindow,"Click on a person to ask questions!");
+    			this.currentRoom = room;
+    		}
+    	}
     }
 	
 	public static void main(String args[]){
