@@ -111,13 +111,19 @@ public class Thing {
 	 * @return returns true if Thing is clicked, false otherwise.
 	 */
 	public boolean checkIfClicked(Point mousePos){
-		int transparentColorID = 16777215;
+		
+		//Transparent color seems to give two different results depending on which program exported them
+		int transparentColorID1 = 16777215;
+		int transparentColorID2 = 0;
+		
+		System.out.println(img.getRGB(mousePos.x, mousePos.y));
 		if(
 				mousePos.x>0 &&
 				mousePos.x<img.getWidth(jPanel) &&
 				mousePos.y>0 &&
 				mousePos.y<img.getHeight(jPanel) &&
-				img.getRGB(mousePos.x, mousePos.y)!=transparentColorID	//Only check on non-transparent parts of the object
+				img.getRGB(mousePos.x, mousePos.y)!=transparentColorID1 &&	//Only check on non-transparent parts of the object
+				img.getRGB(mousePos.x, mousePos.y)!=transparentColorID2
 				){
 			System.out.println("Object clicked with color: " + img.getRGB(mousePos.x, mousePos.y));
 			this.clicked = true;

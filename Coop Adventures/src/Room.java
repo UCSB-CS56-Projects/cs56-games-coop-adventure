@@ -84,12 +84,18 @@ public class Room{
                     	String room = null;
                     	
                     	
-                    	if(thingName.substring(thingName.length()-8-"Kitchen".length(),thingName.length()-8).equals("Kitchen")){
+                    	if(
+                    			thingName.length()>8+"Kitchen".length()&&
+                    			thingName.substring(thingName.length()-8-"Kitchen".length(),thingName.length()-8).equals("Kitchen")){
            
                     		room = "Kitchen";
-                    	}else if(thingName.substring(thingName.length()-8-"LivingRoom".length(),thingName.length()-8).equals("LivingRoom")){
+                    	}else if(
+                    			thingName.length()>8+"LivingRoom".length()&&
+                    			thingName.substring(thingName.length()-8-"LivingRoom".length(),thingName.length()-8).equals("LivingRoom")){
                     		room = "LivingRoom";
-                    	}else if(thingName.substring(thingName.length()-8-"Dashain".length(),thingName.length()-8).equals("Dashain")){
+                    	}else if(
+                    			thingName.length()>8+"Dashain".length()&&
+                    			thingName.substring(thingName.length()-8-"Dashain".length(),thingName.length()-8).equals("Dashain")){
                     		room = "Dashain";
                     	}
                     	

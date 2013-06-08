@@ -11,13 +11,15 @@ public class Teleport extends Thing{
 		this.game = game;
 		
 		this.room = room;
+		
 	}
 	
 	//Override clicked
 	protected void clicked(){
 		super.clicked();
-		game.changeRoom(room);
 		System.out.println("Hiho");
+		game.changeRoom(room);
+		
 	}
 
 }
