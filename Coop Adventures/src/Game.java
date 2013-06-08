@@ -61,10 +61,12 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 		
 		rooms = new ArrayList<Room>();
 		String[] temp = new String[0];
-		Room kitchen = new Room(this,"src/Table_Background.png","src/Table_Icon.png",new File("src/KitchenThings"),this);
-		Room livingRoom = new Room(this,"src/Living Room_Background.png","src/Living Room_Icon.png",new File("src/LivingRoomThings"),this);
-		rooms.add(livingRoom);
+		Room dashain = new Room("Dashain",this,"src/Dashain_Background.png","src/Dashain_Icon.png",new File("src/DashainThings"),this);
+		Room kitchen = new Room("Kitchen",this,"src/Table_Background.png","src/Table_Icon.png",new File("src/KitchenThings"),this);
+		Room livingRoom = new Room("LivingRoom",this,"src/Living Room_Background.png","src/Living Room_Icon.png",new File("src/LivingRoomThings"),this);
+		rooms.add(dashain);
 		rooms.add(kitchen);
+		rooms.add(livingRoom);
 		
 		
 		
@@ -134,7 +136,7 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 	
 	public void paintComponent(Graphics g){
 		currentRoom.draw(g);
-		
+	
 		for(int i = 0; i<rooms.size();i++){
 			if(!(rooms.get(i).equals(currentRoom))){
 				rooms.get(i).drawIcon(g,getRoomIconPos(i));
@@ -143,7 +145,7 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 	}
 	
 	private Point getRoomIconPos(int iconNo){
-		return new Point((int)(screenWidth/rooms.size()*(iconNo+0.5)),screenHeight-100);
+		return new Point((int)(screenWidth/rooms.size()*(iconNo+0.5)),screenHeight-110);
 	}
 	
 	public void mouseClicked(MouseEvent mouse){
@@ -217,6 +219,14 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
     		}
     	}
     	return false;
+    }
+    
+    public void changeRoom(String roomName){
+    	for(Room room:rooms){
+    		if(room.getName().equals(roomName)){
+    			this.currentRoom = room;
+    		}
+    	}
     }
 	
 	public static void main(String args[]){
