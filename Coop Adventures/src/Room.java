@@ -30,6 +30,7 @@ public class Room{
 	private JPanel jPanel;
 	private ArrayList<Thing> things;
 	private Game game;
+	private String name;
 	
 	/**
 	 * 
@@ -38,7 +39,8 @@ public class Room{
 	 * @param iconImgPath Path to icon image
 	 * @param thingImgDir Path to images for Things in the room
 	 */
-	public <E extends JPanel> Room(E j,String bgImgPath,String iconImgPath,File thingImgDir,Game game){
+	public <E extends JPanel> Room(String name,E j,String bgImgPath,String iconImgPath,File thingImgDir,Game game){
+		this.name = name;
 		this.game = game;
 		this.jPanel= j;
 		try {
@@ -47,6 +49,8 @@ public class Room{
 		} catch (IOException e) {
 			System.out.println("Failed to load background image");
 		}
+		
+		
 		
 		try{
 			icon = ImageIO.read(new File(iconImgPath));
@@ -64,19 +68,45 @@ public class Room{
             for (final File f : filesToCheck) {
                 BufferedImage img = null;
                 try {
-                	String name = f.getName().substring(0, f.getName().length()-4); //Remove the file type (".png")
+                	String thingName = f.getName().substring(0, f.getName().length()-4); //Remove the file type (".png")
                     img = ImageIO.read(f);
-                    if(name.substring(name.length()-3).equals("NPC")){
-                    	File conversation = new File(thingImgDir+"/"+name+".txt");
+                    if(thingName.substring(thingName.length()-3).equals("NPC")){
+                    	File conversation = new File(thingImgDir+"/"+thingName+".txt");
                     	if(conversation.exists()){
-                    		System.out.println(name +" conversation existed");
+                    		System.out.println(thingName +" conversation existed");
                     	}else{
-                    		System.out.println(name+" conversation did not exist");
+                    		System.out.println(thingName+" conversation did not exist");
                     	}
                     		
-                    	things.add(new NPC(name,jPanel,img,game,conversation));
+                    	things.add(new NPC(thingName,jPanel,img,game,conversation));
+                    }else if(thingName.substring(thingName.length()-8).equals("Teleport")){
+                    	
+                    	String room = null;
+                    	
+                    	
+                    	if(
+                    			thingName.length()>8+"Kitchen".length()&&
+                    			thingName.substring(thingName.length()-8-"Kitchen".length(),thingName.length()-8).equals("Kitchen")){
+           
+                    		room = "Kitchen";
+                    	}else if(
+                    			thingName.length()>8+"LivingRoom".length()&&
+                    			thingName.substring(thingName.length()-8-"LivingRoom".length(),thingName.length()-8).equals("LivingRoom")){
+                    		room = "LivingRoom";
+                    	}else if(
+                    			thingName.length()>8+"Dashain".length()&&
+                    			thingName.substring(thingName.length()-8-"Dashain".length(),thingName.length()-8).equals("Dashain")){
+                    		room = "Dashain";
+                    	}
+                    	
+                    	if(room!=null){
+
+                    		things.add(new Teleport(thingName,jPanel,img,game,room));
+                    	}else{
+                    		things.add(new Thing(thingName,jPanel,img));
+                    	}
                     }else{
-                    	things.add(new Thing(name,jPanel,img));
+                    	things.add(new Thing(thingName,jPanel,img));
                     }
                     
                 } catch (final IOException e) {
@@ -153,6 +183,10 @@ public class Room{
 			
 	}
 	
+	public String getName(){
+		return this.name;
+	}
+	
 	/**
 	 * Updates all things in the room.
 	 */
@@ -167,7 +201,11 @@ public class Room{
 	 * @return Size of room icon
 	 */
 	public Point getIconSize(){
+		if(icon!=null){
 		return new Point(icon.getWidth(jPanel),icon.getHeight(jPanel));
+		}else{
+			return new Point(0,0);
+		}
 	}
 	
 	/**
@@ -207,7 +245,9 @@ public class Room{
 	 * @param coord
 	 */
 	public void drawIcon(Graphics g,Point coord){
-		g.drawImage(icon, coord.x, coord.y,jPanel);
+		if(icon!=null){
+			g.drawImage(icon, coord.x, coord.y,jPanel);
+		}
 	}
 
 }
