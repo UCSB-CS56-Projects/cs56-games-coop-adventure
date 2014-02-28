@@ -97,6 +97,10 @@ public class Room{
                     			thingName.length()>8+"Dashain".length()&&
                     			thingName.substring(thingName.length()-8-"Dashain".length(),thingName.length()-8).equals("Dashain")){
                     		room = "Dashain";
+                    	}else if(
+                    			thingName.length()>8+"Bedroom".length()&&
+                    			thingName.substring(thingName.length()-8-"Bedroom".length(),thingName.length()-8).equals("Bedroom")){
+                    		room = "Bedroom";
                     	}
                     	
                     	if(room!=null){
@@ -231,7 +235,7 @@ public class Room{
 	
 	/**
 	 * Draws the Things in the room
-	 * @param g
+	 * @param g-
 	 */
 	private void drawThings(Graphics g){
 		for(int i = things.size()-1;i>=0;i--){
