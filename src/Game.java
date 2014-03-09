@@ -64,10 +64,11 @@ public class Game extends JPanel implements MouseListener, MouseMotionListener{
 		Room dashain = new Room("Dashain",this,"src/Dashain_Background.png","src/Dashain_Icon.png",new File("src/DashainThings"),this);
 		Room kitchen = new Room("Kitchen",this,"src/Table_Background.png","src/Table_Icon.png",new File("src/KitchenThings"),this);
 		Room livingRoom = new Room("LivingRoom",this,"src/Living Room_Background.png","src/Living Room_Icon.png",new File("src/LivingRoomThings"),this);
+		Room bedroom = new Room("Bedroom",this,"src/Bedroom_Background.png","src/Bedroom_Icon.png",new File("src/BedroomThings"),this);
 		rooms.add(dashain);
 		rooms.add(kitchen);
 		rooms.add(livingRoom);
-		
+		rooms.add(bedroom);
 		
 		
 		currentRoom = rooms.get(0);
