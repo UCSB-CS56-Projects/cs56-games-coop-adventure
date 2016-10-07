@@ -3,7 +3,6 @@ cs56-games-coop-adventure
 
 Point and click adventure game about the Student Housing Coops
 
-<<<<<<< HEAD
 project history
 ===============
 ```
@@ -43,7 +42,3 @@ Use the command "ant run" to begin the game
 <br>A couple screenshots:
 <br>http://postimg.org/image/o7ikv19g5/
 <br>http://postimg.org/image/k7xe1ejyj/
-  
-
-
->>>>>>> 0f1c61940607e7ed16ff5060c48c42159e9b2e6f
