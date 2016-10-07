@@ -30,7 +30,6 @@
     <delete dir="build" quiet="true" />
     <delete dir="javadoc" quiet="true" />
     <delete dir="dist" quiet="true" />
-    <delete dir="download" quiet="true" />
     <delete dir="temp" quiet="true" />
   </target>
 
